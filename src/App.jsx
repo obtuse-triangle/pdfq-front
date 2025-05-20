@@ -1,15 +1,12 @@
 import { useState } from "react";
 import pdfqLogo from "/pdfq_logo.svg";
-import reactLogo from "./assets/react.svg";
+import arrowLeft from "./assets/header/input/arrow-left.svg";
+import Header from "./components/Header";
 
 function App() {
   return (
     <>
-      <div className="flex flex-col items-center justify-center min-h-screen bg-blue-100 w-full">
-        <img src={reactLogo} alt="React Logo" />
-        <p>this is test</p>
-        <h1 className="text-3xl font-bold text-gray-700">PDF uploader</h1>
-      </div>
+      <Header />
     </>
   );
 }
