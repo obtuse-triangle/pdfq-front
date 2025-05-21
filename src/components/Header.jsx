@@ -51,16 +51,6 @@ function Header() {
               Upload file
             </button>
           </div>
-          <button
-            data-color="black"
-            data-icon="only"
-            data-property="default"
-            data-size="small"
-            data-style="stroke"
-            className="py-1 bg-White rounded flex justify-center items-center gap-2.5"
-          >
-            <img src={dotButton} alt="3dot button" className="w-50 h-50" />
-          </button>
         </div>
       </div>
     </>
