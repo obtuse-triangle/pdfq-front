@@ -34,9 +34,9 @@ function UploadPdf() {
     formData.append("file", fileToUpload);
 
     try {
-      // 파일 업로드 요청 - 파일명을 쿼리 파라미터로 전달
+      // 파일 업로드 요청
       const response = await api.post(
-        `/api/upload?filename=${encodeURIComponent(fileToUpload.name)}`,
+        `api/upload/${encodeURIComponent(fileToUpload)}`,
         formData,
         {
           headers: {
@@ -57,14 +57,16 @@ function UploadPdf() {
       // 서버에서 처리 ID를 받았다고 가정
       const processId = response.data.processId;
 
-      // 랜딩 페이지로 이동하면서 처리 ID 전달
-      navigate("/landing", {
+      // 업로드 성공 시 Units 페이지로 이동
+      navigate("/units", {
         state: {
           fileName: fileToUpload.name,
           fileUrl: response.data.fileUrl,
           uploadTime: new Date().toISOString(),
           processId: processId,
+          status: "success", // 업로드 상태 추가
         },
+        replace: true, // 브라우저 히스토리에 현재 페이지를 남기지 않음
       });
     } catch (error) {
       console.error("File upload failed:", error);
