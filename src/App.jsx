@@ -1,13 +1,10 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import UploadPdf from "./components/fileUploadPage/UploadPdf";
 import LandingPage from "./pages/LandingPage";
 import Header from "./components/Header";
+import Units from "./pages/units";
+import Questions from "./pages/questions";
 
 function App() {
   return (
@@ -20,6 +17,8 @@ function App() {
         <Route path="/upload" element={<UploadPdf />} />
         {/* 랜딩 페이지 */}
         <Route path="/landing" element={<LandingPage />} />
+        <Route path="/units" element={<Units />} />
+        <Route path="/questions" element={<Questions />} />
       </Routes>
     </Router>
   );

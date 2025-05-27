@@ -35,10 +35,7 @@ function LandingPage() {
 
         // 서버 응답에 따라 처리 상태 업데이트
         setProcessingStatus({
-          reading:
-            status === "reading" ||
-            status === "splitting" ||
-            status === "completed",
+          reading: status === "reading" || status === "splitting" || status === "completed",
           splitting: status === "splitting" || status === "completed",
         });
 
@@ -52,7 +49,7 @@ function LandingPage() {
     };
 
     // 주기적으로 상태 확인
-    const intervalId = setInterval(checkProcessingStatus, 2000);
+    const intervalId = setInterval(checkProcessingStatus, 5000);
 
     // 컴포넌트 언마운트 시 인터벌 정리
     return () => clearInterval(intervalId);
@@ -78,9 +75,7 @@ function LandingPage() {
                   />
                   <span
                     className={`text-lg ${
-                      processingStatus.reading
-                        ? "text-blue-500"
-                        : "text-gray-500"
+                      processingStatus.reading ? "text-blue-500" : "text-gray-500"
                     }`}
                   >
                     Reading file...
@@ -94,9 +89,7 @@ function LandingPage() {
                   />
                   <span
                     className={`text-lg ${
-                      processingStatus.splitting
-                        ? "text-blue-500"
-                        : "text-gray-500"
+                      processingStatus.splitting ? "text-blue-500" : "text-gray-500"
                     }`}
                   >
                     Splitting Chapters...
@@ -109,9 +102,7 @@ function LandingPage() {
             <div className="w-full max-w-md text-center">
               <h2 className="text-lg font-medium text-gray-900">파일 정보</h2>
               <p className="mt-2 text-gray-600">파일명: {fileName}</p>
-              <p className="text-gray-600">
-                업로드 시간: {new Date(uploadTime).toLocaleString()}
-              </p>
+              <p className="text-gray-600">업로드 시간: {new Date(uploadTime).toLocaleString()}</p>
             </div>
 
             {/* 다음 단계 버튼 */}

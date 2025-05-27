@@ -29,24 +29,18 @@ function UploadPdf() {
       size: fileToUpload.size,
       lastModified: fileToUpload.lastModified,
     });
-
-    const formData = new FormData();
-    formData.append("file", fileToUpload);
-
     try {
-      // 파일 업로드 요청
+      // 파일을 바이너리 데이터로 직접 업로드
       const response = await api.post(
-        `api/upload/${encodeURIComponent(fileToUpload)}`,
-        formData,
+        `api/upload/${encodeURIComponent(fileToUpload.name)}`,
+        fileToUpload,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": fileToUpload.type || "application/text",
           },
           // 업로드 진행 상황 모니터링
           onUploadProgress: (progressEvent) => {
-            const percentCompleted = Math.round(
-              (progressEvent.loaded * 100) / progressEvent.total
-            );
+            const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
             console.log(`Upload Progress: ${percentCompleted}%`);
           },
         }
@@ -65,6 +59,7 @@ function UploadPdf() {
           uploadTime: new Date().toISOString(),
           processId: processId,
           status: "success", // 업로드 상태 추가
+          data: response.data, // 서버 응답 데이터 추가
         },
         replace: true, // 브라우저 히스토리에 현재 페이지를 남기지 않음
       });
@@ -75,14 +70,11 @@ function UploadPdf() {
       if (error.response) {
         // 서버 응답이 있는 경우
         const { status, data } = error.response;
-        errorMessage = `서버 오류 (${status}): ${
-          data?.message || error.response.statusText
-        }`;
+        errorMessage = `서버 오류 (${status}): ${data?.message || error.response.statusText}`;
         console.error("Server response:", data);
       } else if (error.request) {
         // 요청은 보냈지만 응답이 없는 경우
-        errorMessage =
-          "서버로부터 응답이 없습니다. 서버가 실행 중인지 확인해주세요.";
+        errorMessage = "서버로부터 응답이 없습니다. 서버가 실행 중인지 확인해주세요.";
         console.error("No response received:", error.request);
       } else {
         // 요청 설정 중 오류가 발생한 경우
@@ -109,9 +101,7 @@ function UploadPdf() {
               </div>
             </div>
             <UploadBox onFileUpload={handleFileUpload} />
-            {uploadError && (
-              <div className="text-red-500 mt-4">{uploadError}</div>
-            )}
+            {uploadError && <div className="text-red-500 mt-4">{uploadError}</div>}
           </div>
           <FeatureBoxes />
         </div>
