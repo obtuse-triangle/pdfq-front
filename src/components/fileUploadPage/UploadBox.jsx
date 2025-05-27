@@ -99,8 +99,7 @@ function UploadBox({ onFileUpload }) {
         ref={fileInputRef}
         style={{ display: "none" }}
         onChange={handleFileChange}
-        accept=".pdf,.md,.markdown,.html,.htm" // 허용할 파일 형식 지정
-        // multiple // 다중 파일 선택 허용 (필요시 주석 해제)
+        accept=".md,.markdown,.html,.htm" // 허용할 파일 형식 지정
       />
 
       <div className="self-stretch h-64 relative bg-[#80BFFF] rounded-lg overflow-hidden">
