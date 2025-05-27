@@ -4,6 +4,7 @@ import filePlus from "../../assets/section/file-plus.svg";
 function UploadBox({ onFileUpload }) {
   const fileInputRef = useRef(null);
   const [isDraggingOver, setIsDraggingOver] = useState(false); // 드래그 중 상태 관리
+  const [processingStep, setProcessingStep] = useState(0); // 0: 대기, 1: 업로드 중, 2: 리딩, 3: 스플리팅
 
   // 허용되는 파일 형식
   const allowedFileTypes = [
@@ -20,6 +21,8 @@ function UploadBox({ onFileUpload }) {
 
   // 파일 선택 또는 드래그 드롭으로 파일을 받았을 때 처리하는 함수
   const processFiles = (files) => {
+    if (files.length === 0) return;
+
     const validFiles = Array.from(files).filter((file) => {
       // 크기 제한 확인
       if (file.size > MAX_FILE_SIZE_BYTES) {
@@ -42,10 +45,23 @@ function UploadBox({ onFileUpload }) {
 
     if (validFiles.length > 0 && validFiles.length === files.length) {
       // 모든 파일이 유효한 경우
-      console.log("유효한 파일 선택됨:", validFiles); // 유효한 파일 정보를 콘솔에 출력 (예시)
-      if (onFileUpload) {
-        onFileUpload(validFiles);
-      }
+      console.log("유효한 파일 선택됨:", validFiles);
+      // 파일 업로드 시작
+      setProcessingStep(1);
+
+      // 파일 처리 시뮬레이션
+      setTimeout(() => {
+        setProcessingStep(2); // 리딩 단계
+        setTimeout(() => {
+          setProcessingStep(3); // 스플리팅 단계
+          setTimeout(() => {
+            // 실제 파일 업로드 처리
+            if (onFileUpload) {
+              onFileUpload(validFiles);
+            }
+          }, 1000);
+        }, 1500);
+      }, 1000);
     } else {
       // 유효하지 않은 파일이 있거나 크기 제한 초과 파일이 있는 경우
       console.log("허용되지 않는 파일 형식 또는 크기 초과");
@@ -60,7 +76,8 @@ function UploadBox({ onFileUpload }) {
 
   // <input type="file"> 변경 이벤트 핸들러
   const handleFileChange = (event) => {
-    processFiles(event.target.files);
+    const files = event.target.files;
+    processFiles(files);
   };
 
   // 드래그 중인 요소가 대상 위로 올라왔을 때
@@ -79,7 +96,8 @@ function UploadBox({ onFileUpload }) {
   const handleDrop = (event) => {
     event.preventDefault(); // 기본 동작 방지
     setIsDraggingOver(false);
-    processFiles(event.dataTransfer.files);
+    const files = event.dataTransfer.files;
+    processFiles(files);
   };
 
   return (
@@ -108,24 +126,67 @@ function UploadBox({ onFileUpload }) {
             isDraggingOver ? "border-blue-500" : "border-white"
           } inline-flex flex-col justify-center items-center gap-5`}
         >
-          <div className="w-16 h-16 relative overflow-hidden">
-            <img src={filePlus} alt="file-plus" />
-          </div>
-          <div className="text-white self-stretch text-center justify-start text-White text-2xl font-medium font-['Pretendard'] leading-7">
-            Upload your file here
-          </div>
-          <div
-            data-color="primary"
-            data-icon="none"
-            data-property="default"
-            data-size="small"
-            data-style="default"
-            className="h-9 px-3.5 py-1 bg-[#1A8CFF] rounded inline-flex justify-center items-center gap-2.5"
-          >
-            <button className="text-white text-center justify-start text-White text-base font-normal font-['Pretendard'] leading-tight">
-              Select File
-            </button>
-          </div>
+          {processingStep === 0 ? (
+            <>
+              <div className="w-16 h-16 relative overflow-hidden">
+                <img src={filePlus} alt="file-plus" />
+              </div>
+              <div className="text-white self-stretch text-center justify-start text-White text-2xl font-medium font-['Pretendard'] leading-7">
+                Upload your file here
+              </div>
+              <div
+                data-color="primary"
+                data-icon="none"
+                data-property="default"
+                data-size="small"
+                data-style="default"
+                className="h-9 px-3.5 py-1 bg-[#1A8CFF] rounded inline-flex justify-center items-center gap-2.5"
+              >
+                <button className="text-white text-center justify-start text-White text-base font-normal font-['Pretendard'] leading-tight">
+                  Select File
+                </button>
+              </div>
+            </>
+          ) : processingStep === 1 ? (
+            <div className="flex flex-col items-center space-y-4">
+              <div className="relative">
+                {/* 외부 원 */}
+                <div className="w-16 h-16 border-4 border-blue-200 rounded-full"></div>
+                {/* 회전하는 원 */}
+                <div className="absolute top-0 left-0 w-16 h-16 border-4 border-blue-500 rounded-full animate-spin border-t-transparent"></div>
+                {/* 중앙 점 */}
+                <div className="absolute top-1/2 left-1/2 w-3 h-3 bg-blue-500 rounded-full transform -translate-x-1/2 -translate-y-1/2"></div>
+              </div>
+              <span className="text-white text-lg font-medium">
+                Uploading file...
+              </span>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center space-y-6">
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 space-y-6 w-full max-w-md">
+                {processingStep === 2 && (
+                  <div className="flex items-center space-x-4">
+                    <div className="relative">
+                      <div className="w-3 h-3 rounded-full bg-blue-500 animate-pulse"></div>
+                      <div className="absolute top-0 left-0 w-3 h-3 rounded-full bg-blue-500 animate-ping opacity-75"></div>
+                    </div>
+                    <span className="text-white text-lg">Reading file...</span>
+                  </div>
+                )}
+                {processingStep === 3 && (
+                  <div className="flex items-center space-x-4">
+                    <div className="relative">
+                      <div className="w-3 h-3 rounded-full bg-blue-500 animate-pulse"></div>
+                      <div className="absolute top-0 left-0 w-3 h-3 rounded-full bg-blue-500 animate-ping opacity-75"></div>
+                    </div>
+                    <span className="text-white text-lg">
+                      Splitting Chapters...
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
