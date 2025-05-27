@@ -43,7 +43,7 @@ function Units() {
                     className="font-semibold text-left w-full"
                     onClick={() => setIsOpen((v) => !v)}
                   >
-                    {chapter.title} {isOpen ? "▲" : "▼"}
+                    Lesson {idx + 1} - {chapter.title} {isOpen ? "▲" : "▼"}
                   </button>
                   {isOpen && (
                     <ul className="list-disc ml-6 mt-1">
