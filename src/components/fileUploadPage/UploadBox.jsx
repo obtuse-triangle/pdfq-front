@@ -1,16 +1,14 @@
 import { useRef, useState } from "react";
 import filePlus from "../../assets/section/file-plus.svg";
 
-function UploadBox() {
+function UploadBox({ onFileUpload }) {
   const fileInputRef = useRef(null);
   const [isDraggingOver, setIsDraggingOver] = useState(false); // 드래그 중 상태 관리
 
   // 허용되는 파일 형식
   const allowedFileTypes = [
-    "application/pdf",
     "text/markdown",
     "text/html",
-    ".pdf", // 추가적인 확장자 확인
     ".md",
     ".markdown",
     ".html",
@@ -45,8 +43,9 @@ function UploadBox() {
     if (validFiles.length > 0 && validFiles.length === files.length) {
       // 모든 파일이 유효한 경우
       console.log("유효한 파일 선택됨:", validFiles); // 유효한 파일 정보를 콘솔에 출력 (예시)
-      // TODO: 여기에 실제 파일 업로드 또는 처리 로직을 추가하세요.
-      // 예: uploadApi.upload(validFiles);
+      if (onFileUpload) {
+        onFileUpload(validFiles);
+      }
     } else {
       // 유효하지 않은 파일이 있거나 크기 제한 초과 파일이 있는 경우
       console.log("허용되지 않는 파일 형식 또는 크기 초과");
