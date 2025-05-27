@@ -27,7 +27,7 @@ function UploadPdf() {
     formData.append("file", fileToUpload);
 
     try {
-      const response = await api.post(`/api/upload/${filename}.md`, formData);
+      const response = await api.post(`/upload/${filename}.md`, formData);
       console.log("File upload successful!", response.data);
       setUploadState("success");
     } catch (error) {
