@@ -1,12 +1,12 @@
 import arrowLeft from "../assets/header/input/arrow-left.svg";
-import dotButton from "../assets/Header/input/dotButton.svg";
+import dotButton from "../assets/Header/input/dot-button.svg";
 
 function Header() {
   return (
     <>
       <div className="w-[1440px] h-20 px-10 bg-White shadow-[0px_-1px_11.600000381469727px_0px_rgba(0,0,0,0.25)] inline-flex justify-between items-center">
         <div data-count="1" className="flex justify-start items-center gap-1.0">
-          <div
+          <button
             data-color="black"
             data-icon="only"
             data-property="default"
@@ -19,7 +19,7 @@ function Header() {
               alt="Arrow Left"
               className="w-[50px] h-[50px]"
             />
-          </div>
+          </button>
           <div className="flex justify-start items-center">
             <div className="justify-start text-Black text-xl font-medium font-['Pretendard'] leading-normal">
               Upload file
@@ -35,9 +35,9 @@ function Header() {
             data-style="stroke"
             className="h-9 px-3.5 py-1 bg-White rounded outline outline-1 outline-offset-[-1px] outline-Gray-Grayscale-200 flex justify-center items-center gap-2.5"
           >
-            <div className="text-center justify-start text-Black text-base font-normal font-['Pretendard'] leading-tight">
+            <button className="text-center justify-start text-Black text-base font-normal font-['Pretendard'] leading-tight">
               My files
-            </div>
+            </button>
           </div>
           <div
             data-color="primary"
@@ -47,19 +47,9 @@ function Header() {
             data-style="default"
             className="bg-[#198CFF] h-9 px-3.5 py-1 bg-Primary-Primary-500 rounded flex justify-center items-center gap-2.5"
           >
-            <div className="text-[#FFFFFF] text-center justify-start text-White text-base font-normal font-['Pretendard'] leading-tight">
+            <button className="text-[#FFFFFF] text-center justify-start text-White text-base font-normal font-['Pretendard'] leading-tight">
               Upload file
-            </div>
-          </div>
-          <div
-            data-color="black"
-            data-icon="only"
-            data-property="default"
-            data-size="small"
-            data-style="stroke"
-            className="py-1 bg-White rounded flex justify-center items-center gap-2.5"
-          >
-            <img src={dotButton} alt="3dot button" className="w-50 h-50" />
+            </button>
           </div>
         </div>
       </div>
