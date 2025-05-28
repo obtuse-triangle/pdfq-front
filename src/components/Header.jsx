@@ -1,7 +1,10 @@
 import arrowLeft from "../assets/header/input/arrow-left.svg";
 import dotButton from "../assets/Header/input/dot-button.svg";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
+  const navigate = useNavigate();
+
   return (
     <>
       <div className="w-[1440px] h-20 px-10 bg-White shadow-[0px_-1px_11.600000381469727px_0px_rgba(0,0,0,0.25)] inline-flex justify-between items-center">
@@ -33,11 +36,10 @@ function Header() {
             data-property="default"
             data-size="small"
             data-style="stroke"
-            className="h-9 px-3.5 py-1 bg-White rounded outline outline-1 outline-offset-[-1px] outline-Gray-Grayscale-200 flex justify-center items-center gap-2.5"
+            className="h-9 px-3.5 py-1 bg-White rounded outline outline-1 outline-offset-[-1px] outline-Gray-Grayscale-200 flex justify-center items-center gap-2.5 cursor-pointer"
+            onClick={() => navigate("/my-files")}
           >
-            <button className="text-center justify-start text-Black text-base font-normal font-['Pretendard'] leading-tight">
-              My files
-            </button>
+            <span className="text-base font-normal text-Black">My files</span>
           </div>
           <div
             data-color="primary"

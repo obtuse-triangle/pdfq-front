@@ -3,7 +3,7 @@ import UploadBox from "./UploadBox";
 import FeatureBoxes from "./FeatureBoxes";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import Header from "../Header";
 // axios 인스턴스 생성
 const api = axios.create({
   baseURL: "https://pdfqb.obtuse.kr",
@@ -40,7 +40,9 @@ function UploadPdf() {
           },
           // 업로드 진행 상황 모니터링
           onUploadProgress: (progressEvent) => {
-            const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+            const percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            );
             console.log(`Upload Progress: ${percentCompleted}%`);
           },
         }
@@ -70,11 +72,14 @@ function UploadPdf() {
       if (error.response) {
         // 서버 응답이 있는 경우
         const { status, data } = error.response;
-        errorMessage = `서버 오류 (${status}): ${data?.message || error.response.statusText}`;
+        errorMessage = `서버 오류 (${status}): ${
+          data?.message || error.response.statusText
+        }`;
         console.error("Server response:", data);
       } else if (error.request) {
         // 요청은 보냈지만 응답이 없는 경우
-        errorMessage = "서버로부터 응답이 없습니다. 서버가 실행 중인지 확인해주세요.";
+        errorMessage =
+          "서버로부터 응답이 없습니다. 서버가 실행 중인지 확인해주세요.";
         console.error("No response received:", error.request);
       } else {
         // 요청 설정 중 오류가 발생한 경우
@@ -89,6 +94,7 @@ function UploadPdf() {
 
   return (
     <>
+      <Header />
       <section className="w-[1440px] h-full flex justify-center items-center mt-[50px]">
         <div className="w-[1120px] inline-flex flex-col justify-start items-center gap-20">
           <div className="self-stretch flex flex-col justify-start items-center gap-10">
@@ -101,7 +107,9 @@ function UploadPdf() {
               </div>
             </div>
             <UploadBox onFileUpload={handleFileUpload} />
-            {uploadError && <div className="text-red-500 mt-4">{uploadError}</div>}
+            {uploadError && (
+              <div className="text-red-500 mt-4">{uploadError}</div>
+            )}
           </div>
           <FeatureBoxes />
         </div>
